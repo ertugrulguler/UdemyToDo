@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using YSKProje.ToDo.Entities.Interfaces;
@@ -18,5 +19,8 @@ namespace YSKProje.ToDo.Entities.Concrete
 
         public int? AppUserId { get; set; } //görec önce oluşturulup sonra birine atama yapılabilir
         public AppUser AppUser { get; set; }
+
+
+        public List<Rapor> Raporlar { get; set; }
     }
 }
