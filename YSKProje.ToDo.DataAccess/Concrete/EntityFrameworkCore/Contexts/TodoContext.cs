@@ -20,12 +20,13 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
-            modelBuilder.ApplyConfiguration(new CalismaMap());
+            modelBuilder.ApplyConfiguration(new GorevMap());
 
             base.OnModelCreating(modelBuilder);
         }
 
       
         public DbSet<Gorev> Gorevler { get; set; }
+        public DbSet<Aciliyet> Aciliyetler { get; set; }
     }
 }
