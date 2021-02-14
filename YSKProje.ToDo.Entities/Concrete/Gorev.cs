@@ -13,6 +13,9 @@ namespace YSKProje.ToDo.Entities.Concrete
         public bool Durum { get; set; }
         public DateTime OlusturulmaTarih { get; set; }
 
+        public int AciliyetId { get; set; }
+        public Aciliyet Aciliyet { get; set; }
+
         public int? AppUserId { get; set; } //görec önce oluşturulup sonra birine atama yapılabilir
         public AppUser AppUser { get; set; }
     }
