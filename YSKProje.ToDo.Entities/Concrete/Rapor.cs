@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YSKProje.ToDo.Entities.Interfaces;
 
 namespace YSKProje.ToDo.Entities.Concrete
 {
-    public class Rapor
+    public class Rapor:ITablo
     {
         public int Id { get; set; }
         public string Tanim { get; set; }
