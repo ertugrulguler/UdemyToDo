@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using YSKProje.ToDo.Business.Concrete;
+using YSKProje.ToDo.Business.Interfaces;
+using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
+using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories;
+using YSKProje.ToDo.DataAccess.Interfaces;
+using YSKProje.ToDo.Entities.Concrete;
 
 namespace YSKProje.Todo.Web
 {
@@ -11,6 +17,16 @@ namespace YSKProje.Todo.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IGorevService, GorevManager>();
+            services.AddScoped<IAciliyetService, AciliyetManager>();
+            services.AddScoped<IRaporService, RaporManager>();
+            services.AddScoped<IGorevDal, EfGorevRepository>();
+            services.AddScoped<IAciliyetDal, EfAciliyetRepository>();
+            services.AddScoped<IRaporDal, EfRaporRepository>();
+
+            services.AddDbContext<TodoContext>();
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<TodoContext>();
+            
             services.AddControllersWithViews();
         }
 
