@@ -26,7 +26,7 @@ namespace YSKProje.Todo.Web
 
             services.AddDbContext<TodoContext>();
             services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<TodoContext>();
-            
+
             services.AddControllersWithViews();
         }
 
@@ -40,7 +40,20 @@ namespace YSKProje.Todo.Web
 
             app.UseRouting();
             app.UseStaticFiles(); //wwwroot
-            app.UseEndpoints(i => { i.MapDefaultControllerRoute(); });
+            app.UseEndpoints(end =>
+            {
+                end.MapControllerRoute(
+                   name: "areas",
+                   pattern: "{area}/{controller=Home}/{action=Index}/{id?}"
+                   );
+
+
+                end.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                    );
+
+            });
         }
     }
 }
