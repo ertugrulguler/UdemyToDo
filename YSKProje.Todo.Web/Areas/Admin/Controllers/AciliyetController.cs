@@ -16,6 +16,7 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
+            TempData["Active"] = "aciliyet";
             var aciliyetList = _aciliyetService.GetirHepsi();
 
             var model = new List<AciliyetListVieewModel>();
@@ -33,6 +34,7 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
 
         public IActionResult EkleAciliyet()
         {
+            TempData["Active"] = "aciliyet";
             return View(new AciliyetAddViewModel());
         }
 
@@ -49,6 +51,7 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
 
         public IActionResult GuncelleAciliyet(int id)
         {
+            TempData["Active"] = "aciliyet";
             var aciliyet = _aciliyetService.GetirIdile(id);
 
             var model = new AciliyetUpdateViewModel()
