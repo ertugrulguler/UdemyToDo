@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 using YSKProje.ToDo.DataAccess.Interfaces;
@@ -8,6 +9,12 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfGorevRepository : EfGenericRepository<Gorev>, IGorevDal
     {
-       
+        public List<Gorev> TamamlanmayanlariAciliyetIleGetir()
+        {
+            using (var context = new TodoContext())
+            {
+               return  context.Gorevler.Include(i => i.Aciliyet).Where(i => i.Durum==false).OrderBy(i => i.OlusturulmaTarih).ToList();
+            }
+        }
     }
 }

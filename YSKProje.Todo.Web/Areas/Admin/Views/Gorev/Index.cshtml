@@ -20,8 +20,8 @@ else
         <tr>
             <th>Ad</th>
             <th>Aciklama</th>
-            <th>Durum</th>
-            <th>AciliyetId</th>
+            <th>Olusturulma Tarihi</th>
+            <th>Aciliyet Durumu</th>
             <th>İşlem</th>
         </tr>
         @foreach (var item in Model)
@@ -29,13 +29,65 @@ else
             <tr>
                 <td>@item.Ad</td>
                 <td>@item.Aciklama</td>
-                <td>@item.Durum</td>
-                <td>@item.AciliyetId</td>
+                <td>@item.OlusturulmaTarih.ToString("D")</td>
+                <td>@item.Aciliyet.Tanim</td>
                 <td>
-                    <a>Düzenle</a>
-                    <a>Sil</a>
+                    <a asp-action="GuncelleGorev" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Düzenle</a>
+                    <a class="btn btn-sm btn-danger"  data-toggle="modal" data-target="#silmeEkrani" data-id="@item.Id">Sil</a>
                 </td>
             </tr>
         }
     </table>
+}
+
+
+<!-- Modal -->
+<div class="modal fade" id="silmeEkrani" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">**Uyarı**</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    Silmek istediğinizden emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hayır Vazgeç</button>
+                <button id="btnSil" type="button" class="btn btn-primary">Evet Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section JavaScript{ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#silmeEkrani').on("show.bs.modal", function (event) {
+
+                let tetikleyenElement = $(event.relatedTarget);
+                let id = tetikleyenElement.data('id');
+
+                $('#btnSil').click(function () {
+                    $.ajax({
+                        type: "Get",
+                        url: "./Gorev/SilGorev",
+                        data: { id: id },
+                        dataType: "json",
+                        contentType:"application/json; charset=utf-8;",
+                        success: function () {
+                            //alert('İşlem tamamlandı.');
+                            window.location.reload();
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    })
+                });
+            });
+        });
+    </script>
+
 }

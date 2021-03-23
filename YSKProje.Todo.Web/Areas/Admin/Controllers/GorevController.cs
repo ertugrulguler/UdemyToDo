@@ -23,7 +23,7 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             TempData["Active"] = "gorev";
-            var gorevler = _gorevService.GetirHepsi();
+            var gorevler = _gorevService.TamamlanmayanlariAciliyetIleGetir();
             var models = new List<GorevListViewModel>();
             foreach (var gorev in gorevler)
             {
@@ -65,6 +65,46 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+
+        public IActionResult GuncelleGorev(int id)
+        {
+            TempData["Active"] = "gorev";
+            var gorev = _gorevService.GetirIdile(id);
+            GorevUpdateViewModel model = new GorevUpdateViewModel
+            {
+                Id = gorev.Id,
+                Aciklama = gorev.Aciklama,
+                AciliyetId = gorev.AciliyetId,
+                Ad = gorev.Ad
+            };
+            ViewBag.Aciliyetler = new SelectList(_aciliyetService.GetirHepsi(), "Id", "Tanim", gorev.AciliyetId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult GuncelleGorev(GorevUpdateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _gorevService.Guncelle(new Gorev()
+                {
+                    Id = model.Id,
+                    Aciklama = model.Aciklama,
+                    AciliyetId = model.AciliyetId,
+                    Ad = model.Ad
+                });
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+
+        public IActionResult SilGorev(int id)
+        {
+            _gorevService.Sil(new Gorev { Id = id });
+            return Json(null);
         }
     }
 }

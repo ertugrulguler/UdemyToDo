@@ -40,5 +40,9 @@ namespace YSKProje.ToDo.Business.Concrete
             _gorevDal.Sil(tablo);
         }
 
+        public List<Gorev> TamamlanmayanlariAciliyetIleGetir()
+        {
+            return _gorevDal.TamamlanmayanlariAciliyetIleGetir();
+        }
     }
 }
