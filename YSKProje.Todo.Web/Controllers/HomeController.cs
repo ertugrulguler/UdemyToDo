@@ -18,5 +18,10 @@ namespace YSKProje.Todo.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult KayitOl()
+        {
+            return View();
+        }
     }
 }
