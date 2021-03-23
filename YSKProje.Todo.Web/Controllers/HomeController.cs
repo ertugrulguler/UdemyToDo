@@ -14,14 +14,45 @@ namespace YSKProje.Todo.Web.Controllers
     {
         private readonly IGorevService _gorevService;
         private readonly UserManager<AppUser> _userManager;
-        public HomeController(IGorevService gorevService, UserManager<AppUser> userManager)
+        private readonly SignInManager<AppUser> _signInManager;
+        public HomeController(IGorevService gorevService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _gorevService = gorevService;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GirisYap(AppUserSignInModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.Username);
+                if (user != null)
+                {
+                    var identityResult = await  _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
+
+                    if (identityResult.Succeeded)
+                    {
+                      var userRole =   await  _userManager.GetRolesAsync(user);
+
+                        if (userRole.Contains("Admib"))
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Admin" });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Member" });
+                        }
+                    }
+                }
+                ModelState.AddModelError("", "Kullanıcı adı veya şifre yanlış");
+            }
+            return View("Index",model);
         }
 
         public IActionResult KayitOl()

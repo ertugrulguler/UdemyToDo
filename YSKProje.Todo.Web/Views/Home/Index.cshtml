@@ -18,6 +18,11 @@
         <input asp-for="Password" type="password" class="form-control" />
     </div>
 
+    <div class="form-check">
+        <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label"></label>
+    </div>
+
     <a asp-action="KayitOl" class="btn btn-sm btn-primary">Kayıt Ol</a>
     <input type="submit" class="btn btn-sm btn-info" value="Giriş Yap" />
 </form>

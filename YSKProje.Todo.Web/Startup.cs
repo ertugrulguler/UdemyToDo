@@ -58,6 +58,8 @@ namespace YSKProje.Todo.Web
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             IdentityInitializer.SeedData(userManager, roleManager).Wait();
             app.UseStaticFiles(); //wwwroot
             app.UseEndpoints(end =>
