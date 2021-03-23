@@ -20,7 +20,7 @@ namespace YSKProje.Todo.Web.Models
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Email alanı boş geçilemez.")]
-        [DataType(DataType.EmailAddress,ErrorMessage ="Geçersiz e-mail adresi.")]
+        [EmailAddress(ErrorMessage ="Geçersiz e-mail adresi.")]
         [Display(Name = "Email:")]
         public string Email { get; set; }
 
