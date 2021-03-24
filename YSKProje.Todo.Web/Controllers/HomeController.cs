@@ -40,7 +40,7 @@ namespace YSKProje.Todo.Web.Controllers
                     {
                       var userRole =   await  _userManager.GetRolesAsync(user);
 
-                        if (userRole.Contains("Admib"))
+                        if (userRole.Contains("Admin"))
                         {
                             return RedirectToAction("Index", "Home", new { area = "Admin" });
                         }

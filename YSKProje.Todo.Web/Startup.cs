@@ -25,6 +25,10 @@ namespace YSKProje.Todo.Web
             services.AddScoped<IGorevDal, EfGorevRepository>();
             services.AddScoped<IAciliyetDal, EfAciliyetRepository>();
             services.AddScoped<IRaporDal, EfRaporRepository>();
+            services.AddScoped<IAppUserService, AppUserManager>();
+            services.AddScoped<IAppUserDal, EfAppUserRepository>();
+
+
 
             services.AddDbContext<TodoContext>();
             services.AddIdentity<AppUser, AppRole>(opt=>
