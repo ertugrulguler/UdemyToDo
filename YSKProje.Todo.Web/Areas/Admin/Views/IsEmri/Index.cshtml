@@ -13,6 +13,8 @@
             <th>Oluşturulma Tarihi</th>
             <th>Çalışan Personel</th>
             <th>Aciliyet</th>
+            <th>Rapor Sayısı</th>
+            <th>İşlem</th>
         </tr>
 
         @foreach (var item in Model)
@@ -22,20 +24,33 @@
                 <td>@item.Aciklama</td>
                 <td>@item.OlusturulmaTarih.ToString("D")</td>
                 <td>
-                 @{
-                     if (item.AppUser == null)
-                     {
-                         <span class="badge badge-danger">Çalışan personel yok.</span>
-                     }
-                     else
-                     {
-                         <span class="badge badge-success">@item.AppUser.Name çalışıyor.</span>
-                     }
-                }
+                    @{
+                        if (item.AppUser == null)
+                        {
+                            <span class="badge badge-danger">Çalışan personel yok.</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-success">@item.AppUser.Name çalışıyor.</span>
+                        }
+                    }
                 </td>
                 <td>@item.Aciliyet.Tanim</td>
-        </tr>
-    }
+                <td>@item.Raporlar.Count</td>
+                <td>
+                    @{
+                        if (item.AppUser == null)
+                        {
+                            <a asp-action="AtaPersonel" asp-route-id="@item.Id" class="btn btn-info btn-sm">Personel Ata</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Detaylandir" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Detay Göster</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
     </table>
 }
 else

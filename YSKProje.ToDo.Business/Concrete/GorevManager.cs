@@ -15,6 +15,11 @@ namespace YSKProje.ToDo.Business.Concrete
             _gorevDal = gorevDal;
         }
 
+        public Gorev GetirAciliyetIdIle(int id)
+        {
+            return _gorevDal.GetirAciliyetIdIle(id);
+        }
+
         public List<Gorev> GetirHepsi()
         {
             return _gorevDal.GetirHepsi();
