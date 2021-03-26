@@ -16,7 +16,12 @@ namespace YSKProje.ToDo.Business.Concrete
         }
         public List<AppUser> GetirAdminOlmayanlar()
         {
-            throw new NotImplementedException();
+            return _userDal.GetirAdminOlmayanlar();
+        }
+
+        public List<AppUser> GetirAdminOlmayanlar(string q, int aktifSayfa)
+        {
+            return _userDal.GetirAdminOlmayanlar(q, aktifSayfa);
         }
     }
 }

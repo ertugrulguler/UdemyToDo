@@ -9,7 +9,7 @@ using YSKProje.ToDo.Business.Interfaces;
 
 namespace YSKProje.Todo.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class IsEmriController : Controller
     {
@@ -42,6 +42,45 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
             }
 
             return View(models);
+        }
+
+        public IActionResult AtaPersonel(int id, string q, int sayfa = 1)
+        {
+            TempData["Active"] = "isemri";
+            ViewBag.AktifSayfa = sayfa;
+            ViewBag.ToplamSayfa = (int)Math.Ceiling((double)_appUserService.GetirAdminOlmayanlar().Count / 3);
+            var gorev = _gorevService.GetirAciliyetIdIle(id);
+
+            var personeller = _appUserService.GetirAdminOlmayanlar(q, sayfa);
+            var appUserListModel = new List<AppUserListViewModel>();
+
+            foreach (var item in personeller)
+            {
+                var model = new AppUserListViewModel()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Surname = item.Surname,
+                    Email = item.Email,
+                    Picture = item.Picture
+                };
+
+                appUserListModel.Add(model);
+            }
+
+
+            ViewBag.Personeller = appUserListModel;
+
+            var gorevModel = new GorevListViewModel()
+            {
+                Id = gorev.Id,
+                Aciklama = gorev.Aciklama,
+                Aciliyet = gorev.Aciliyet,
+                Ad = gorev.Ad,
+                OlusturulmaTarih = gorev.OlusturulmaTarih
+            };
+
+            return View(gorevModel);
         }
     }
 }

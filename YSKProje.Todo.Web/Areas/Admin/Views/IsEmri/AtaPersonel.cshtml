@@ -1,0 +1,58 @@
+﻿@model GorevListViewModel
+@{
+    ViewData["Title"] = "AtaPersonel";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt-2">
+    <div class="col-md-4">
+        <div class="card border border-primary">
+            <div class="card-header"> <h4 class="text-center lead">Görev Bilgileri</h4></div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Ad</h5>
+                <p class="card-text">@Model.Aciklama</p>
+                <p class="card-text"><strong>Aciliyet Durumu: </strong> <span class="badge badge-primary">@Model.Aciliyet.Tanim</span> </p>
+                <p class="card-text"><small>@Model.OlusturulmaTarih.ToString("D")</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        @foreach (var item in (List<AppUserListViewModel>)ViewBag.Personeller)
+        {
+            <div class="card mb-3">
+                <div class="row no-gutters border border-primary">
+                    <div class="col-md-4">
+                        <img src="~/img/@item.Picture" class="card-img" alt="@item.Name" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name @item.Surname</h5>
+                            <p class="card-text">
+                                Bir projede görev almış mı?
+                            </p>
+                            <p class="card-text"><small class="text-muted">@item.Email</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @*<li class="page-item"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i-1">&larr;</a></li>*@
+                @for (int i = 1; i <= ViewBag.ToplamSayfa; i++)
+                {
+
+
+                    <li class="page-item  @(ViewBag.AktifSayfa == i ? "active" : "")"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i">@i</a></li>
+                }
+                @*<li class="page-item"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i+1">&rarr;</a></li>*@
+
+            </ul>
+        </nav>
+
+    </div>
+
+</div>
+
