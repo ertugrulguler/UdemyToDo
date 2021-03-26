@@ -33,7 +33,7 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
                 UserName = i.user.UserName
             }).ToList();
         }
-        public List<AppUser> GetirAdminOlmayanlar(string q, int aktifSayfa = 1)
+        public List<AppUser> GetirAdminOlmayanlar(out int toplamSayfa, string q, int aktifSayfa = 1)
         {
             using var context = new TodoContext();
 
@@ -56,10 +56,12 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
                 UserName = i.user.UserName
             });
 
+            toplamSayfa = (int)Math.Ceiling((double)result.Count() / 3);
 
             if (!string.IsNullOrWhiteSpace(q))
             {
                 result = result.Where(i => i.Name.ToLower().Contains(q.ToLower()) || i.Surname.ToLower().Contains(q.ToLower()));
+                toplamSayfa = (int)Math.Ceiling((double)result.Count() / 3);
             }
 
             result = result.Skip((aktifSayfa - 1) * 3).Take(3);

@@ -48,10 +48,15 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
         {
             TempData["Active"] = "isemri";
             ViewBag.AktifSayfa = sayfa;
-            ViewBag.ToplamSayfa = (int)Math.Ceiling((double)_appUserService.GetirAdminOlmayanlar().Count / 3);
+            //ViewBag.ToplamSayfa = (int)Math.Ceiling((double)_appUserService.GetirAdminOlmayanlar().Count / 3);
+
+            int toplamSayfa;
             var gorev = _gorevService.GetirAciliyetIdIle(id);
 
-            var personeller = _appUserService.GetirAdminOlmayanlar(q, sayfa);
+            var personeller = _appUserService.GetirAdminOlmayanlar(out toplamSayfa, q, sayfa);
+
+            ViewBag.ToplamSayfa = toplamSayfa;
+            ViewBag.Aranan = q;
             var appUserListModel = new List<AppUserListViewModel>();
 
             foreach (var item in personeller)

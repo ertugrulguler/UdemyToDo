@@ -2,9 +2,27 @@
 @{
     ViewData["Title"] = "AtaPersonel";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string q = (string)ViewBag.Aranan;
 }
 
 <div class="row mt-2">
+
+    <div class="col-md-12 text-right mb-2">
+
+        @if (!string.IsNullOrWhiteSpace(q))
+        {
+            <div class="border border-dark p-3 mb-2">
+                <span class="text-left"><strong>@q</strong> kelimesine ait sonuçları görmektesiniz.</span>
+                <a asp-action="AtaPersonel" asp-route-id="@Model.Id" class="text-right">Filtreyi Kaldır</a>
+            </div>
+        }
+
+        <form method="get" asp-action="AtaPersonel">
+            <input type="text" name="q" class="form-control-sm border-right-0 border-left-0 border-top-0 border-primary"/>
+            <button type="submit" class="btn btn-primary btn-sm">Ara</button>
+        </form>
+    </div>
+
     <div class="col-md-4">
         <div class="card border border-primary">
             <div class="card-header"> <h4 class="text-center lead">Görev Bilgileri</h4></div>
@@ -40,14 +58,28 @@
         }
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                @*<li class="page-item"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i-1">&larr;</a></li>*@
-                @for (int i = 1; i <= ViewBag.ToplamSayfa; i++)
+
+                @if (!string.IsNullOrWhiteSpace(q))
                 {
+                    @for (int i = 1; i <= ViewBag.ToplamSayfa; i++)
+                    {
 
 
-                    <li class="page-item  @(ViewBag.AktifSayfa == i ? "active" : "")"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i">@i</a></li>
+                        <li class="page-item  @(ViewBag.AktifSayfa == i ? "active" : "")"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i" asp-route-q="@q">@i</a></li>
+                    }
                 }
-                @*<li class="page-item"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i+1">&rarr;</a></li>*@
+                else
+                {
+                    @*<li class="page-item"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i-1">&larr;</a></li>*@
+                    @for (int i = 1; i <= ViewBag.ToplamSayfa; i++)
+                    {
+
+
+                        <li class="page-item  @(ViewBag.AktifSayfa == i ? "active" : "")"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i">@i</a></li>
+                    }
+                    @*<li class="page-item"><a class="page-link" asp-action="AtaPersonel" asp-route-id="@Model.Id" asp-route-sayfa="@i+1">&rarr;</a></li>*@
+                }
+
 
             </ul>
         </nav>
