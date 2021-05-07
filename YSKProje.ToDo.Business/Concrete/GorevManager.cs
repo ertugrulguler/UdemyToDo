@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using YSKProje.ToDo.Business.Interfaces;
-using YSKProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using YSKProje.ToDo.DataAccess.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 
@@ -18,6 +17,11 @@ namespace YSKProje.ToDo.Business.Concrete
         public Gorev GetirAciliyetIdIle(int id)
         {
             return _gorevDal.GetirAciliyetIdIle(id);
+        }
+
+        public List<Gorev> GetirAppUserIdIle(int appUserId)
+        {
+            return _gorevDal.GetirAppUserIdIle(appUserId);
         }
 
         public List<Gorev> GetirHepsi()
