@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using YSKProje.Todo.Web.Areas.Admin.Models;
 using YSKProje.ToDo.Business.Interfaces;
+using YSKProje.ToDo.Entities.Concrete;
 
 namespace YSKProje.Todo.Web.Areas.Admin.Controllers
 {
@@ -15,10 +15,12 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
     {
         private readonly IAppUserService _appUserService;
         private readonly IGorevService _gorevService;
-        public IsEmriController(IAppUserService appUserService, IGorevService gorevService)
+        private readonly UserManager<AppUser> _userManager;
+        public IsEmriController(IAppUserService appUserService, IGorevService gorevService, UserManager<AppUser> userManager)
         {
             _appUserService = appUserService;
             _gorevService = gorevService;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -86,6 +88,46 @@ namespace YSKProje.Todo.Web.Areas.Admin.Controllers
             };
 
             return View(gorevModel);
+        }
+
+        [HttpPost]
+        public IActionResult AtaPersonel(PersonelGorevlendirViewModel model)
+        {
+            var gorev = _gorevService.GetirIdile(model.GorevId);
+            gorev.AppUserId = model.PersonelId;
+            _gorevService.Guncelle(gorev);
+            return RedirectToAction("Index");
+        }
+        public IActionResult GorevlendirPersonel(PersonelGorevlendirViewModel model)
+        {
+            TempData["Active"] = "isemri";
+            var user = _userManager.Users.FirstOrDefault(i => i.Id == model.PersonelId);
+            var gorev = _gorevService.GetirAciliyetIdIle(model.GorevId);
+
+            var userModel = new AppUserListViewModel()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Picture = user.Picture,
+                Surname = user.Surname,
+                Email = user.Email
+            };
+
+            var gorevModel = new GorevListViewModel()
+            {
+                Id = gorev.Id,
+                Aciklama = gorev.Aciklama,
+                Aciliyet = gorev.Aciliyet,
+                Ad = gorev.Ad
+            };
+
+            var personelModel = new PersonelGorevlendirListViewModel()
+            {
+                AppUser = userModel,
+                Gorev = gorevModel
+            };
+
+            return View(personelModel);
         }
     }
 }
